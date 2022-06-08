@@ -1,5 +1,15 @@
 .container {
   padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.songPlaying {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .main {
