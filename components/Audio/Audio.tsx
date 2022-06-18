@@ -2,35 +2,43 @@ import { useRef, useState, useEffect, SyntheticEvent } from "react"
 import { BsFillPauseFill, BsFillPlayFill, BsFillSkipBackwardFill, BsFillSkipForwardFill } from "react-icons/bs"
 import classes from './Audio.module.css'
 
-const Audio = (props: any) => {
+type Song = {
+    id: number;
+    title: string;
+    artist: string;
+    file: string;
+    image: string
+}
+
+const Audio = (props: {isPlaying: boolean, setIsPlaying: Function, songs: Song[], trackPlaying: number, setTrackPlaying: Function}) => {
 
     const audioRef = useRef<HTMLAudioElement>(null);
 
-    const [timeSongInfo, setTimeSongInfo] = useState({
+    const [timeSongInfo, setTimeSongInfo] = useState<{currentTime: number, duration: number}>({
         currentTime: 0,
         duration: 0
     })
     
-    const handlePlay = () => {
+    const handlePlay = (): void => {
         props.setIsPlaying(true)
         if(audioRef.current) {
             audioRef.current.play();
         }
     }
 
-    const handlePause = () => {
+    const handlePause = (): void => {
         props.setIsPlaying(false)
         if(audioRef.current) {
             audioRef.current.pause();
         }
     }
 
-    const handlePreviousOrNext = (arg: string) => {
+    const handlePreviousOrNext = (arg: string): void => {
         let thisTrackPlaying = getNumberNextOrPreviousTrack(arg)
         props.setTrackPlaying(thisTrackPlaying)
     }
 
-    const getNumberNextOrPreviousTrack = (arg: string) => {
+    const getNumberNextOrPreviousTrack = (arg: string): number => {
         let thisTrackPlaying = props.trackPlaying
         let numberTracks = props.songs.length
         if(arg === 'previous') {
@@ -61,9 +69,9 @@ const Audio = (props: any) => {
         }
     }, [props.trackPlaying])
 
-    const handleTimeUpdate = (e: any) => {
-        const current = e.target.currentTime;
-        const duration = e.target.duration
+    const handleTimeUpdate = (e: SyntheticEvent<EventTarget>): void => {
+        const current = (e.target as HTMLMediaElement).currentTime;
+        const duration = (e.target as HTMLMediaElement).duration
 
         if(current == duration) {
             handlePreviousOrNext('next')
@@ -77,18 +85,18 @@ const Audio = (props: any) => {
         }
     }
 
-    const getTime = (time: number) => {
+    const getTime = (time: number): string => {
         return (
             Math.floor(time / 60) + ':' + ("0" + Math.floor(time % 60)).slice(-2)
         )
     }
 
-    const handleDragging = (e: any) => {
+    const handleDragging = (e: SyntheticEvent<EventTarget>): void => {
         console.log(e);
         if(audioRef.current) {
-            audioRef.current.currentTime = e.target.value
+            audioRef.current.currentTime = parseInt((e.target as HTMLInputElement).value)
         }
-        setTimeSongInfo({...timeSongInfo, currentTime: e.target.value})
+        setTimeSongInfo({...timeSongInfo, currentTime: parseInt((e.target as HTMLInputElement).value)})
     }
 
     return (

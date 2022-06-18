@@ -7,8 +7,11 @@
 }
 
 .range__flex {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 40%;
+  margin: 1rem auto 1rem auto;
 }
 
 .controls__flex__audio__player {
@@ -37,4 +40,3 @@
   border: 4px solid #05F2C7;
   box-shadow: -407px 0 0 400px #05F2C7;
 }
-

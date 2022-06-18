@@ -41,8 +41,8 @@ export const getStaticProps = async() => {
 
 const Home: NextPage<{ songs: Song[]}> = ({ songs }) => {
 
-  const [trackPlaying, setTrackPlaying] = useState(0)
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [trackPlaying, setTrackPlaying] = useState<number>(0)
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   return (
     <div className={styles.container}>

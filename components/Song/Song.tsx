@@ -9,7 +9,7 @@ type Song = {
     image: string
 }
 
-const Song = (props: {song: Song, isPlaying: boolean}) => {
+const Song = (props: {song: Song, trackPlaying: number, isPlaying: boolean}) => {
 
     return (
         <>
